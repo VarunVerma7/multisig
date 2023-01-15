@@ -65,7 +65,7 @@ contract MultisigTest is Test {
         bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
         uint256 proposalId = 1;
 
-        // test that 3 people can vote for a proposal and the 4th can execute it
+        // test that a non-signer can't vote
         vm.prank(nonSigner);
         vm.expectRevert("Not part of contract signers");
         multisig.proposeAction(addressToExecuteUpon, dataToExecute, proposalId);
