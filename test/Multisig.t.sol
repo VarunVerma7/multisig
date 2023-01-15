@@ -32,19 +32,20 @@ contract MultisigTest is Test {
         // action to execute
         address addressToExecuteUpon = address(sampleContract);
         bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        uint proposalId = 1;
 
         // test that 3 people can vote for a proposal and the 4th can execute it
         vm.prank(signer1);
-        multisig.proposeAction(addressToExecuteUpon, dataToExecute, 1);
+        multisig.proposeAction(addressToExecuteUpon, dataToExecute, proposalId);
 
         vm.prank(signer2);
-        multisig.voteForAction(1);
+        multisig.voteForAction(proposalId);
 
         vm.prank(signer3);
-        multisig.voteForAction(1);
+        multisig.voteForAction(proposalId);
 
         vm.prank(signer4);
-        multisig.performOperation(1);
+        multisig.performOperation(proposalId);
         
 
         // confirm the action of the multisig actually performed
