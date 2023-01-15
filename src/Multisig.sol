@@ -36,9 +36,7 @@ contract Multisig {
         Proposal storage newProposal = proposals[proposalId];
         newProposal.addressToCall = addressToCall;
         newProposal.dataToExecute = dataToExecute;
-
-        proposals[proposalId] = newProposal;
-    }
+   }
 
     function voteForAction(uint256 proposalIndex) external partOfSigners {
         require(proposals[proposalIndex].proposalSigners.length != 0, "Proposal does not exist at this ID");
