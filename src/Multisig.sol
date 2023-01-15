@@ -28,7 +28,7 @@ contract Multisig {
         external
         partOfSigners
     {
-        // all valid proposals have to have an array length > 0 since msg.sender is always pushed... therefore if the array length is 0 then we're not overwriting an existing proposal.. right?
+        // all existing proposals have to have an array length > 0 since msg.sender is always pushed... therefore if the array length is 0 then we're not overwriting an existing proposal.. right?
         require(proposals[proposalId].proposalSigners.length == 0, "Proposal already exists at this ID");
 
         proposals[proposalId].proposalSigners.push(msg.sender);
