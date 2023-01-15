@@ -32,7 +32,7 @@ contract MultisigTest is Test {
         // action to execute
         address addressToExecuteUpon = address(sampleContract);
         bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
-        uint proposalId = 1;
+        uint256 proposalId = 1;
 
         // test that 3 people can vote for a proposal and the 4th can execute it
         vm.prank(signer1);
@@ -46,9 +46,44 @@ contract MultisigTest is Test {
 
         vm.prank(signer4);
         multisig.performOperation(proposalId);
-        
 
         // confirm the action of the multisig actually performed
         assertEq(sampleContract.num(), 100);
+    }
+
+    function testVoteForProposalThatDoesntExist() external {
+        vm.prank(signer2);
+        vm.expectRevert("Proposal does not exist at this ID");
+        multisig.voteForAction(2);
+    }
+
+    function testNonValidSigner() external {
+        address nonSigner = address(0x123456);
+
+        // action to execute
+        address addressToExecuteUpon = address(sampleContract);
+        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        uint256 proposalId = 1;
+
+        // test that 3 people can vote for a proposal and the 4th can execute it
+        vm.prank(nonSigner);
+        vm.expectRevert("Not part of contract signers");
+        multisig.proposeAction(addressToExecuteUpon, dataToExecute, proposalId);
+    }
+
+    function testVotingTwice() external {
+        // action to execute
+        address addressToExecuteUpon = address(sampleContract);
+        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        uint256 proposalId = 1;
+
+        // valid proposal
+        vm.prank(signer1);
+        multisig.proposeAction(addressToExecuteUpon, dataToExecute, proposalId);
+
+        // shouldn't be able to vote again
+        vm.prank(signer1);
+        vm.expectRevert("Already voted brah");
+        multisig.voteForAction(proposalId);
     }
 }

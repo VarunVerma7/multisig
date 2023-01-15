@@ -3,12 +3,10 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 
-// write a smart contract that implements a Multisig wallet
-
 struct Proposal {
     address addressToCall;
     bytes dataToExecute;
-    address[] proposalSigners; // cant remove signer once signed
+    address[] proposalSigners; // desired functionality is that you cant unsign a proposal if you voted for it
 }
 
 contract Multisig {
@@ -61,7 +59,7 @@ contract Multisig {
         require(proposal.proposalSigners.length >= threshold, "Not enough signatures");
 
         (bool success,) = proposal.addressToCall.call(proposal.dataToExecute);
-        delete proposals[proposalIndex]; // i am aware proposal can't be deleted if !success.. but does this result in any issues down the line?
+        delete proposals[proposalIndex]; // aware proposal can't be deleted if !success.. but does this result in any issues down the line?
 
         require(success, "Proposal Failed");
     }
