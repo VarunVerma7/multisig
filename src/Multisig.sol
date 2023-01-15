@@ -54,7 +54,7 @@ contract Multisig {
         proposal.proposalSigners.push(msg.sender);
     }
 
-    function performOperation(uint256 proposalIndex) external partOfSigners {
+    function performAction(uint256 proposalIndex) external partOfSigners {
         Proposal storage proposal = proposals[proposalIndex];
         require(proposal.proposalSigners.length >= threshold, "Not enough signatures");
 

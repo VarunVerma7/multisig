@@ -45,7 +45,7 @@ contract MultisigTest is Test {
         multisig.voteForAction(proposalId);
 
         vm.prank(signer4);
-        multisig.performOperation(proposalId);
+        multisig.performAction(proposalId);
 
         // confirm the action of the multisig actually performed
         assertEq(sampleContract.num(), 100);
@@ -100,12 +100,12 @@ contract MultisigTest is Test {
         // shouldn't be able to execute as not enough signatures
         vm.prank(signer1);
         vm.expectRevert("Not enough signatures");
-        multisig.performOperation(proposalId);
+        multisig.performAction(proposalId);
 
         // Proposal should be deleted now, so shouldn't have enough signatures
         vm.prank(signer1);
         vm.expectRevert("Not enough signatures");
-        multisig.performOperation(proposalId);
+        multisig.performAction(proposalId);
 
     }
 }
