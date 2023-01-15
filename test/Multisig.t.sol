@@ -52,6 +52,7 @@ contract MultisigTest is Test {
     }
 
     function testVoteForProposalThatDoesntExist() external {
+        // shouldn't be able to vote for proposal that doesn't exist
         vm.prank(signer2);
         vm.expectRevert("Proposal does not exist at this ID");
         multisig.voteForAction(2);
