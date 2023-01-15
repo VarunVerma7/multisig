@@ -86,4 +86,20 @@ contract MultisigTest is Test {
         vm.expectRevert("Already voted brah");
         multisig.voteForAction(proposalId);
     }
+
+    function testNotEnoughSignatures() external {
+        // action to execute
+        address addressToExecuteUpon = address(sampleContract);
+        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        uint256 proposalId = 1;
+
+        // valid proposal
+        vm.prank(signer1);
+        multisig.proposeAction(addressToExecuteUpon, dataToExecute, proposalId);
+
+        // shouldn't be able to execute as not enough signatures
+        vm.prank(signer1);
+        vm.expectRevert("Not enough signatures");
+        multisig.performOperation(proposalId);
+    }
 }
