@@ -66,4 +66,8 @@ contract Multisig {
         require(signersMapping[msg.sender] == true, "Not part of contract signers");
         _;
     }
+
+    fallback() external payable {
+        
+    }
 }
