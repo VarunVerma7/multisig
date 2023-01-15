@@ -101,5 +101,11 @@ contract MultisigTest is Test {
         vm.prank(signer1);
         vm.expectRevert("Not enough signatures");
         multisig.performOperation(proposalId);
+
+        // Proposal should be deleted now, so shouldn't have enough signatures
+        vm.prank(signer1);
+        vm.expectRevert("Not enough signatures");
+        multisig.performOperation(proposalId);
+
     }
 }
