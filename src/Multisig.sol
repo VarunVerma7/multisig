@@ -141,10 +141,7 @@ contract Multisig {
     }
 
     modifier partOfSigners() {
-        require(
-            signersMapping[msg.sender] == true,
-            "Not part of contract signers"
-        );
+        require(signersMapping[msg.sender] == true, "Not authorized, GTFO");
         _;
     }
 

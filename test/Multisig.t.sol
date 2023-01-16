@@ -85,7 +85,7 @@ contract MultisigTest is Test {
         uint256 value = 1e18;
         // test that a non-signer can't vote
         vm.prank(nonSigner);
-        vm.expectRevert("Not part of contract signers");
+        vm.expectRevert("Not authorized, GTFO");
         multisig.proposeAction(
             addressToExecuteUpon,
             dataToExecute,
