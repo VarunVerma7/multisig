@@ -22,6 +22,7 @@ contract Multisig {
     uint256 public threshold;
     mapping(uint256 => Proposal) public proposals;
     mapping(address => bool) public signersMapping;
+    bool internal locked;
 
     constructor(address[] memory _signers, uint256 _threshold) {
         require(
@@ -99,7 +100,7 @@ contract Multisig {
         proposal.proposalSigners.push(msg.sender);
     }
 
-    function performAction(uint256 proposalIndex) external partOfSigners {
+    function performAction(uint256 proposalIndex) external partOfSigners noReentrant {
         Proposal storage proposal = proposals[proposalIndex];
         require(
             proposal.proposalSigners.length >= threshold,
@@ -143,6 +144,13 @@ contract Multisig {
     modifier partOfSigners() {
         require(signersMapping[msg.sender] == true, "Not authorized, GTFO");
         _;
+    }
+
+    modifier noReentrant() {
+        require(!locked, "No re-entrancy");
+        locked = true;
+        _;
+        locked = false;
     }
 
     fallback() external payable {}
