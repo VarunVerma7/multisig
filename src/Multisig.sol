@@ -100,7 +100,11 @@ contract Multisig {
         proposal.proposalSigners.push(msg.sender);
     }
 
-    function performAction(uint256 proposalIndex) external partOfSigners noReentrant {
+    function performAction(uint256 proposalIndex)
+        external
+        partOfSigners
+        noReentrant
+    {
         Proposal storage proposal = proposals[proposalIndex];
         require(
             proposal.proposalSigners.length >= threshold,
@@ -126,10 +130,7 @@ contract Multisig {
     }
 
     // INTERNAL FUNCTIONS & Modifiers
-    function removeVoter(uint256 indexOfVoter, uint256 proposalIndex)
-        internal
-        returns (address[] memory)
-    {
+    function removeVoter(uint256 indexOfVoter, uint256 proposalIndex) internal {
         Proposal storage proposal = proposals[proposalIndex];
 
         address[] storage arr = proposal.proposalSigners;
@@ -137,8 +138,6 @@ contract Multisig {
             arr[i] = arr[i + 1];
         }
         arr.pop();
-
-        return arr;
     }
 
     modifier partOfSigners() {
