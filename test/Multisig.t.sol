@@ -33,14 +33,23 @@ contract MultisigTest is Test {
     function testProposal() external {
         // action to execute
         address addressToExecuteUpon = address(sampleContract);
-        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        bytes memory dataToExecute = abi.encodeWithSignature(
+            "setNum(uint256)",
+            100
+        );
         uint256 proposalId = 1;
         uint256 gas = 1e6;
         uint256 value = 1e18;
 
         // test that 3 people can vote for a proposal and the 4th can execute it
         vm.prank(signer1);
-        multisig.proposeAction(addressToExecuteUpon, dataToExecute, gas, value, proposalId);
+        multisig.proposeAction(
+            addressToExecuteUpon,
+            dataToExecute,
+            gas,
+            value,
+            proposalId
+        );
 
         vm.prank(signer2);
         multisig.voteForAction(proposalId);
@@ -67,26 +76,44 @@ contract MultisigTest is Test {
 
         // action to execute
         address addressToExecuteUpon = address(sampleContract);
-        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        bytes memory dataToExecute = abi.encodeWithSignature(
+            "setNum(uint256)",
+            100
+        );
         uint256 proposalId = 1;
         uint256 gas = 1e6;
         uint256 value = 1e18;
         // test that a non-signer can't vote
         vm.prank(nonSigner);
         vm.expectRevert("Not part of contract signers");
-        multisig.proposeAction(addressToExecuteUpon, dataToExecute, gas, value, proposalId);
+        multisig.proposeAction(
+            addressToExecuteUpon,
+            dataToExecute,
+            gas,
+            value,
+            proposalId
+        );
     }
 
     function testVotingTwice() external {
         // action to execute
         address addressToExecuteUpon = address(sampleContract);
-        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        bytes memory dataToExecute = abi.encodeWithSignature(
+            "setNum(uint256)",
+            100
+        );
         uint256 proposalId = 1;
         uint256 gas = 1e6;
         uint256 value = 1e18;
         // valid proposal
         vm.prank(signer1);
-        multisig.proposeAction(addressToExecuteUpon, dataToExecute, gas, value, proposalId);
+        multisig.proposeAction(
+            addressToExecuteUpon,
+            dataToExecute,
+            gas,
+            value,
+            proposalId
+        );
 
         // shouldn't be able to vote again
         vm.prank(signer1);
@@ -97,14 +124,23 @@ contract MultisigTest is Test {
     function testNotEnoughSignatures() external {
         // action to execute
         address addressToExecuteUpon = address(sampleContract);
-        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        bytes memory dataToExecute = abi.encodeWithSignature(
+            "setNum(uint256)",
+            100
+        );
         uint256 proposalId = 1;
         uint256 gas = 1e6;
         uint256 value = 1e18;
 
         // valid proposal
         vm.prank(signer1);
-        multisig.proposeAction(addressToExecuteUpon, dataToExecute, gas, value, proposalId);
+        multisig.proposeAction(
+            addressToExecuteUpon,
+            dataToExecute,
+            gas,
+            value,
+            proposalId
+        );
 
         // shouldn't be able to execute as not enough signatures
         vm.prank(signer1);
@@ -115,24 +151,33 @@ contract MultisigTest is Test {
     function testArrayRemoval() external {
         // action to execute
         address addressToExecuteUpon = address(sampleContract);
-        bytes memory dataToExecute = abi.encodeWithSignature("setNum(uint256)", 100);
+        bytes memory dataToExecute = abi.encodeWithSignature(
+            "setNum(uint256)",
+            100
+        );
         uint256 proposalId = 1;
         uint256 gas = 1e6;
         uint256 value = 1e18;
 
         // valid proposal
         vm.prank(signer1);
-        multisig.proposeAction(addressToExecuteUpon, dataToExecute, gas, value, proposalId);
+        multisig.proposeAction(
+            addressToExecuteUpon,
+            dataToExecute,
+            gas,
+            value,
+            proposalId
+        );
 
         // valid vote
         vm.prank(signer2);
         multisig.voteForAction(proposalId);
 
-        //unvote 
+        //unvote
         vm.prank(signer1);
         multisig.unvoteForAction(proposalId);
 
-        //vote 
+        //vote
         vm.prank(signer3);
         multisig.voteForAction(proposalId);
 
