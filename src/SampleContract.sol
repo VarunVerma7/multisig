@@ -10,8 +10,10 @@ contract SampleContract {
         num = 0;
     }
 
-    function setNum(uint256 _num) external {
+    function setNum(uint256 _num) external payable {
         require(_num != 0, "Nope");
         num = _num;
     }
+
+    fallback() external payable {}
 }
