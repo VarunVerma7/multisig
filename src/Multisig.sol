@@ -6,7 +6,7 @@ struct Proposal {
     uint256 value;
     address addressToCall;
     bytes dataToExecute;
-    address[] proposalSigners; // desired functionality is that you cant unsign a proposal if you voted for it
+    address[] proposalSigners; 
 }
 
 contract Multisig {
