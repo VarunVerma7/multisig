@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+/* 
+
+The intention of this contract is simple: Multiple signers can vote on performing arbitrary proposals.
+Signers of the contract are assigned in the constructor
+
+*/
+
 struct Proposal {
     uint256 gas;
     uint256 value;
@@ -25,6 +32,8 @@ contract Multisig {
             signersMapping[_signers[i]] = true;
         }
     }
+
+    // External functions for valid signers
 
     function proposeAction(
         address addressToCall,
@@ -83,16 +92,21 @@ contract Multisig {
         require(success, "Proposal Failed");
     }
 
+    // View functions
+    function retrieveProposal(uint proposalIndex) external view returns (Proposal memory) {
+        return proposals[proposalIndex];
+    }
+
     // INTERNAL FUNCTIONS & Modifiers
     function removeVoter(uint256 indexOfVoter, uint256 proposalIndex) internal returns (address[] memory) {
         Proposal storage proposal = proposals[proposalIndex];
 
         address[] storage arr = proposal.proposalSigners;
-
         for (uint256 i = indexOfVoter; i < arr.length - 1; i++) {
             arr[i] = arr[i + 1];
         }
         arr.pop();
+
         return arr;
     }
 
