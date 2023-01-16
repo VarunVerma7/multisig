@@ -8,6 +8,8 @@ Signers of the contract are assigned in the constructor
 
 */
 
+
+// Proposal should be immutable once created.. apart from who signs it
 struct Proposal {
     uint256 gas;
     uint256 value;
@@ -87,9 +89,9 @@ contract Multisig {
         require(proposal.proposalSigners.length >= threshold, "Not enough signatures");
 
         (bool success,) = proposal.addressToCall.call{value: proposal.value, gas: proposal.gas}(proposal.dataToExecute);
-        delete proposals[proposalIndex]; // aware proposal can't be deleted if !success.. but does this result in any issues down the line?
+        delete proposals[proposalIndex]; 
 
-        require(success, "Proposal Failed");
+        // require(success, "Proposal Failed"); // success or not, we want to delete the proposal;
     }
 
     // View functions

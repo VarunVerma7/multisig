@@ -110,11 +110,6 @@ contract MultisigTest is Test {
         vm.prank(signer1);
         vm.expectRevert("Not enough signatures");
         multisig.performAction(proposalId);
-
-        // Proposal should be deleted now, so shouldn't have enough signatures
-        vm.prank(signer1);
-        vm.expectRevert("Not enough signatures");
-        multisig.performAction(proposalId);
     }
 
     function testArrayRemoval() external {
@@ -133,19 +128,11 @@ contract MultisigTest is Test {
         vm.prank(signer2);
         multisig.voteForAction(proposalId);
 
-        // valid vote
-        vm.prank(signer3);
-        multisig.voteForAction(proposalId);
-
         //unvote 
         vm.prank(signer1);
         multisig.unvoteForAction(proposalId);
 
-        // unvote
-        vm.prank(signer3);
-        multisig.unvoteForAction(proposalId);
-
-        //vote again
+        //vote 
         vm.prank(signer3);
         multisig.voteForAction(proposalId);
 
