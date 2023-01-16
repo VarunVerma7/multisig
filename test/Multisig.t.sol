@@ -133,15 +133,15 @@ contract MultisigTest is Test {
         vm.prank(signer2);
         multisig.voteForAction(proposalId);
 
-        //vote again
+        // valid vote
         vm.prank(signer3);
         multisig.voteForAction(proposalId);
 
-        //vote again
+        //unvote 
         vm.prank(signer1);
         multisig.unvoteForAction(proposalId);
 
-        //vote again
+        // unvote
         vm.prank(signer3);
         multisig.unvoteForAction(proposalId);
 
@@ -157,6 +157,7 @@ contract MultisigTest is Test {
         vm.prank(signer4);
         multisig.voteForAction(proposalId);
 
+        // execute
         vm.prank(signer4);
         multisig.performAction(proposalId);
     }
