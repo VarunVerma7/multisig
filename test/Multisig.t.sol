@@ -155,7 +155,8 @@ contract MultisigTest is Test {
 
         //vote again
         vm.prank(signer4);
-        multisig.voteForAction(proposalId);
+        vm.expectRevert("Cant unvote for something you never voted for");
+        multisig.unvoteForAction(proposalId);
 
         // execute
         vm.prank(signer4);
