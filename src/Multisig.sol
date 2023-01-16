@@ -47,7 +47,7 @@ contract Multisig {
 
     function unvoteForAction(uint256 proposalIndex) external partOfSigners {
         require(proposals[proposalIndex].proposalSigners.length != 0, "Proposal does not exist at this ID");
-        Proposal storage proposal = proposals[proposalIndex];
+        Proposal memory proposal = proposals[proposalIndex];
 
         uint256 indexOfVoter = 100; // if index is still 100, they never voted, therefore abort
         for (uint256 i = 0; i < proposal.proposalSigners.length; i++) {
